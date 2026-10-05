@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Impact of Late-Night Screen Usage on Sleep Quality</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Sleep Health Dashboard</p>
+    <h1>The Impact of Late-Night Screen Usage<br><span>on Sleep Quality</span></h1>
+    <p class="sub">การใช้หน้าจอตอนกลางคืนและชั่วโมงการใช้งานต่อวัน ส่งผลต่อคุณภาพและระยะเวลาการนอนของนักเรียนนักศึกษาอย่างไร</p>
+  </header>
+
+  <main>
+    <!-- Filters -->
+    <section class="filters card" aria-label="ตัวกรองข้อมูล">
+      <div class="f-group">
+        <label for="fGender">เพศ</label>
+        <select id="fGender"></select>
+      </div>
+      <div class="f-group">
+        <label for="fDevice">อุปกรณ์</label>
+        <select id="fDevice"></select>
+      </div>
+      <div class="f-group">
+        <label for="fAge">ช่วงอายุ</label>
+        <select id="fAge"></select>
+      </div>
+      <div class="f-group f-range">
+        <label for="fUsage">ใช้งานต่อวันไม่เกิน <b id="fUsageVal"></b> ชม.</label>
+        <input type="range" id="fUsage" step="0.5">
+      </div>
+      <div class="f-chips" id="chips"></div>
+      <button id="resetBtn" class="btn" type="button">รีเซ็ตตัวกรอง</button>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis" aria-label="ตัวชี้วัดหลัก">
+      <article class="kpi">
+        <span class="kpi-icon">🎓</span>
+        <div><p>Total Students</p><h2 id="kpiTotal">–</h2><small id="kpiTotalNote"></small></div>
+      </article>
+      <article class="kpi">
+        <span class="kpi-icon">🌙</span>
+        <div><p>% Late-Night Users</p><h2 id="kpiLate">–</h2><small id="kpiLateNote"></small></div>
+      </article>
+      <article class="kpi">
+        <span class="kpi-icon">⏰</span>
+        <div><p>Average Sleep Duration</p><h2 id="kpiDur">–</h2><small>ชั่วโมงต่อคืน</small></div>
+      </article>
+      <article class="kpi">
+        <span class="kpi-icon">⭐</span>
+        <div><p>Average Sleep Quality</p><h2 id="kpiQual">–</h2><small>คะแนนเต็ม 5</small></div>
+      </article>
+    </section>
+
+    <p class="hint">💡 คลิกแท่งกราฟเพื่อเลือกกลุ่ม (กราฟอื่นจะกรองตามทันที) · คลิกซ้ำเพื่อยกเลิก · วางเมาส์บนจุดหรือแท่งเพื่อดูรายละเอียด</p>
+
+    <section class="grid">
+      <article class="card" id="c1">
+        <h3>1 · สัดส่วนผู้ที่ใช้หน้าจอตอนกลางคืน</h3>
+        <p class="q">นักเรียนนักศึกษากี่เปอร์เซ็นต์ที่ใช้หน้าจอในเวลากลางคืน?</p>
+        <div class="chart" id="chart1"></div>
+        <p class="insight" id="ins1"></p>
+      </article>
+
+      <article class="card" id="c2">
+        <h3>2 · Late-Night Usage → Average Sleep Quality</h3>
+        <p class="q">คนที่ใช้หน้าจอตอนกลางคืนมีคะแนนคุณภาพการนอนเฉลี่ยต่ำกว่าคนที่ไม่ใช้หรือไม่?</p>
+        <div class="chart" id="chart2"></div>
+        <p class="insight" id="ins2"></p>
+      </article>
+
+      <article class="card" id="c3">
+        <h3>3 · Daily Usage Hours → Average Sleep Duration</h3>
+        <p class="q">เมื่อใช้หน้าจอนานขึ้น ชั่วโมงนอนเฉลี่ยเปลี่ยนไปอย่างไร? <em>(แบ่งช่วงละ 1 ชม. · แถบสีจาง = ช่วงความเชื่อมั่น 95%)</em></p>
+        <div class="chart tall" id="chart3"></div>
+        <p class="insight" id="ins3"></p>
+      </article>
+
+      <article class="card" id="c4">
+        <h3>4 · Daily Usage Hours → Sleep Quality</h3>
+        <p class="q">ใช้หน้าจอนานขึ้น คะแนนคุณภาพการนอนมีแนวโน้มลดลงหรือไม่? <em>(คะแนนเป็นจำนวนเต็ม 1–5 จึงสุ่มกระจายจุดเล็กน้อย)</em></p>
+        <div class="chart tall" id="chart4"></div>
+        <p class="insight" id="ins4"></p>
+      </article>
+
+      <article class="card wide" id="c5">
+        <h3>5 · สัดส่วนประเภท Device ที่ใช้ <span class="tag">ตัวแปรเสริม</span></h3>
+        <p class="q">นักเรียนนักศึกษาใช้อุปกรณ์ประเภทใดมากที่สุด?</p>
+        <div class="chart" id="chart5"></div>
+        <p class="insight" id="ins5"></p>
+      </article>
+    </section>
+  </main>
+
+  <div id="loadError" class="load-error" hidden>
+    <div class="card">
+      <h3>โหลดไฟล์ข้อมูลไม่สำเร็จ</h3>
+      <p>เบราว์เซอร์ไม่อนุญาตให้อ่านไฟล์ CSV โดยตรงเมื่อเปิดผ่าน <code>file://</code> — เลือกไฟล์ <code>Social_media_impact_on_life.csv</code> ด้วยตนเอง หรือรันเซิร์ฟเวอร์ด้วย <code>python -m http.server</code></p>
+      <input type="file" id="csvFile" accept=".csv">
+    </div>
+  </div>
+
+  <footer>ข้อมูล: Social_media_impact_on_life.csv · n = 4,500 · สร้างด้วย D3.js</footer>
+  <div id="tooltip" class="tooltip" role="tooltip"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
